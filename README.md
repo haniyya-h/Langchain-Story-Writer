@@ -2,7 +2,7 @@
 
 Generate short stories from a simple prompt using *LangChain* with pluggable LLM backends (OpenAI / Google Gemini). One command in, a structured story out — optionally with outline, character notes, and “continue the story” support.
 
-> Repo contains: story-writer.py, requirements.txt, and an MIT license. ([GitHub][1])
+> Repo contains: story-writer.py, requirements.txt, and an MIT license.
 
 ---
 
@@ -21,7 +21,7 @@ Generate short stories from a simple prompt using *LangChain* with pluggable LLM
 * *Python*: 3.10 or newer recommended
 * *Dependencies*: listed in requirements.txt (install with pip)
 
-> License is MIT. ([GitHub][1])
+> License is MIT. 
 
 ---
 
@@ -184,6 +184,6 @@ python story-writer.py --prompt "Monsoon night in Karachi; a PI follows a trail 
 
 ## 📝 License
 
-MIT — see LICENSE. ([GitHub][1])
+MIT — see LICENSE.
 
 ---
