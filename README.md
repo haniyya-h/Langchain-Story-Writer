@@ -1,94 +1,103 @@
-# Langchain-Story-Writer
+# 📖 LangChain Story Writer
 
-Generate short stories from a simple prompt using *LangChain* with pluggable LLM backends (OpenAI / Google Gemini). One command in, a structured story out — optionally with outline, character notes, and “continue the story” support.
-
-> Repo contains: story-writer.py, requirements.txt, and an MIT license.
+Turn a simple idea into a complete short story with *LangChain* and your choice of LLM backend (OpenAI or Google Gemini).
+One prompt in → an outline, character notes, and a polished story out — with optional “continue the story” support.
 
 ---
 
 ## ✨ Features
 
-* *Single-file CLI*: run story-writer.py and get a story.
-* *Prompt → Outline → Story* pipeline (outline optional).
-* *Provider-agnostic*: works with OpenAI or Google Gemini (set via env).
-* *Determinism control*: tweak temperature/seed (if supported by provider).
-* *Easy to extend*: swap the model or add tools in one place.
+* **Single-file CLI**: run `story-writer.py` and get a story instantly.
+* **Prompt → Outline → Story** pipeline (outline optional).
+* **Backend agnostic**: works with OpenAI or Google Gemini (set via env).
+* **Customizable output**: control temperature, seed, length, and genre.
+* **Extensible**: swap models or add new tools in one place.
 
 ---
 
 ## 📦 Requirements
 
-* *Python*: 3.10 or newer recommended
-* *Dependencies*: listed in requirements.txt (install with pip)
+* **Python**: 3.10+
+* **Dependencies**: see `requirements.txt`
 
-> License is MIT. 
+Install with:
+
+```bash
+pip install -r requirements.txt
+```
+
+License: MIT
 
 ---
 
-## 🔐 Environment Variables
+## 🔐 Setup Environment Variables
 
-Create a .env in the project root:
+Create a `.env` file in the project root:
 
-bash
-# Choose a provider by setting the matching API key.
-# You can set one or both; the script will pick the one you configure.
+```bash
+# Choose a provider (OpenAI or Gemini)
 
-# OpenAI (e.g., GPT-4o-mini or gpt-4.1-mini)
+# OpenAI (e.g., gpt-4o-mini or gpt-4.1-mini)
 OPENAI_API_KEY=sk-...
 
 # Google Gemini (e.g., gemini-2.5-flash)
 GEMINI_API_KEY=...
 
-# Optional model overrides (defaults are reasonable if omitted)
-MODEL_NAME=gpt-4o-mini         # or gemini-2.5-flash
-TEMPERATURE=0.7                # 0.0–1.0
-MAX_TOKENS=1200                # provider dependent
+# Optional overrides
+MODEL_NAME=gpt-4o-mini       # or gemini-2.5-flash
+TEMPERATURE=0.7              # 0.0–1.0
+MAX_TOKENS=1200              # depends on provider
+```
 
-
-> Tip: If you prefer not to use dotenv, export these in your shell profile.
+> 💡 Tip: You can also export these in your shell instead of using `.env`.
 
 ---
 
 ## 🚀 Quickstart
 
-bash
+```bash
 # 1) Clone
 git clone https://github.com/haniyya-h/Langchain-Story-Writer
 cd Langchain-Story-Writer
 
-# 2) (Recommended) Create & activate a virtual env
+# 2) (Optional) Virtual environment
 python -m venv .venv
 # Windows
 . .venv/Scripts/activate
 # macOS/Linux
 source .venv/bin/activate
 
-# 3) Install deps
+# 3) Install dependencies
 pip install -r requirements.txt
 
-# 4) Add your keys in .env (see above)
+# 4) Add your API key(s) in .env
 
-# 5) Run (interactive prompt)
+# 5) Run
 python story-writer.py
-
+```
 
 ---
 
 ## 🧑‍💻 Usage
 
-### A) Interactive mode (works even if no CLI args are defined)
+### Interactive Mode
 
-Just run the script. You’ll be asked for a brief *prompt* (e.g., “A lost robot finds home in a desert city”) and optional settings. The program then:
+Run the script without arguments:
 
-1. (Optional) Generates a *story outline*
-2. Expands it into a *full story*
-3. Prints the result to console and (optionally) saves to a file
+```bash
+python story-writer.py
+```
 
-### B) CLI flags (if present in the script)
+* Enter a short prompt (e.g., *“A lost robot finds home in a desert city”*)
+* Optionally generate an **outline**
+* Expand into a **full story**
+* View in console or save to a file
 
-If your story-writer.py exposes argparse flags, typical usage looks like:
+---
 
-bash
+### CLI Flags (if enabled in script)
+
+```bash
 python story-writer.py \
   --prompt "A young detective in Karachi solves a metro mystery" \
   --genre "mystery" \
@@ -96,91 +105,86 @@ python story-writer.py \
   --outline \
   --temperature 0.6 \
   --output out/metro-mystery.md
+```
 
+Check available flags with:
 
-> If you’re unsure which flags exist, run:
->
-> bash
-> python story-writer.py --help
-> 
-> 
->or open the file and check the argparse section at the bottom.
+```bash
+python story-writer.py --help
+```
 
 ---
 
-## 🧠 How it works (high-level)
+## 🧠 How It Works
 
-1. *Model setup*: The script looks for OPENAI_API_KEY or GEMINI_API_KEY, and picks a default MODEL_NAME accordingly.
-2. *Prompting chain*:
+1. **Model setup** → selects OpenAI or Gemini based on your API key.
+2. **Prompting chain**:
 
-   * (Optional) *Outline Chain* – turns your idea into a structured outline (acts like a scaffold).
-   * *Story Chain* – expands the idea/outline into a complete short story, honoring genre/tone/length hints.
-3. *Post-processing*: Trims overlong output, optionally writes to file.
-
-This separation keeps the story coherent, avoids repetition, and gives you a clean place to insert future tools (e.g., style checkers or “continue the story” calls).
+   * *(Optional)* Outline chain → turns your idea into a scaffold.
+   * Story chain → expands into a full short story with genre, tone, and length.
+3. **Post-processing** → trims extra output and saves (if requested).
 
 ---
 
-## 🗂️ Project structure
+## 🗂️ Project Structure
 
-
+```
 Langchain-Story-Writer/
-├─ story-writer.py        # main script: model init + outline + story
-├─ requirements.txt       # Python deps
-└─ LICENSE                # MIT
-
+├─ story-writer.py      # Main script
+├─ requirements.txt     # Dependencies
+└─ LICENSE              # MIT license
+```
 
 ---
 
-## 🔧 Configuration & Tips
+## 🔧 Configuration Tips
 
-* *Switch provider*: set MODEL_NAME and the matching API key in .env.
-* *More/less creativity*: raise/lower TEMPERATURE.
-* *Length control*: increase MAX_TOKENS (subject to model limits).
-* *Reproducibility*: if the script supports a --seed, set it for repeatable output.
-* *Non-English*: prompt in your target language; models handle Urdu, etc., well.
+* **Switch provider**: set `MODEL_NAME` + API key in `.env`.
+* **Control creativity**: raise/lower `TEMPERATURE`.
+* **Control length**: adjust `MAX_TOKENS` and/or `--words`.
+* **Reproducibility**: set a seed (if supported).
+* **Multi-language**: works in English, Urdu, and others.
 
 ---
 
 ## 📚 Examples
 
-bash
-# Classic fantasy
-python story-writer.py --prompt "An apprentice mage loses her spellbook before exams" --genre fantasy --words 900
+```bash
+# Fantasy
+python story-writer.py --prompt "An apprentice mage loses her spellbook" --genre fantasy --words 900
 
-# Sci-fi micro-story (concise)
+# Sci-fi short
 python story-writer.py --prompt "An AI lighthouse guards a stormy digital sea" --words 300 --temperature 0.4
 
 # Noir style
-python story-writer.py --prompt "Monsoon night in Karachi; a PI follows a trail of receipts" --genre noir --temperature 0.65
-
+python story-writer.py --prompt "Monsoon night in Karachi; a PI follows a trail of receipts" --genre noir
+```
 
 ---
 
 ## 🧩 Extending
 
-* Add a *Style Chain* that rewrites the draft to a specific author’s vibe (ethically, without imitating living authors too closely).
-* Insert a *Content Filter* step (e.g., PG-rating clamp).
-* Add a *Continue / Next Chapter* function that feeds the last paragraph back into the chain.
+* Add a **Style Chain** to mimic specific writing tones.
+* Insert a **Content Filter** (e.g., PG-safe mode).
+* Add a **Continue Story / Next Chapter** loop.
 
 ---
 
-## 🧪 Development
+## 🧪 Development Notes
 
-* Code style: keep functions small and chain logic explicit (outline → story).
-* Testing: store a couple of fixed prompts and compare outputs for gross regressions.
-* CI: you can wire a “lint & smoke” GitHub Action later.
+* Keep functions small; keep chain logic explicit (outline → story).
+* Use test prompts for quick regression checks.
+* CI can run linting + smoke tests.
 
 ---
 
 ## ❓ Troubleshooting
 
-* *KeyError: API key*: Set .env properly; restart your shell after exporting.
-* *401/403*: Check your model name is available to your key; some tiers restrict models.
-* *Weird formatting*: Pipe output to a file and open in a Markdown editor.
-* *Very short stories*: increase MAX_TOKENS and/or words flag.
+* **`KeyError: API key`** → check `.env` or shell exports.
+* **401/403 errors** → model not available for your tier.
+* **Weird formatting** → pipe to file and open in Markdown editor.
+* **Stories too short** → raise `MAX_TOKENS` or `--words`.
 
----
 
 ## 📝 License
 
